@@ -5,7 +5,7 @@ import useFetch from "@/services/useFetch";
 import {fetchMovies} from "@/services/api";
 import {icons} from "@/constants/icons";
 import SearchBar from "@/components/SearchBar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const Search = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -13,8 +13,22 @@ const Search = () => {
     const {
         data: movies = [],
         loading,
-        error
-    } = useFetch(() => fetchMovies({query: searchQuery}));
+        error,
+        refetch: loadMovies,
+        reset,
+    } = useFetch(() => fetchMovies({query: searchQuery}), false);
+
+    useEffect(() => {
+        const func = async () =>{
+            if(searchQuery.trim()){
+                await loadMovies();
+            } else {
+                reset();
+            }
+        }
+
+        func();
+    }, [searchQuery]);
 
     return (
         <View className="flex-1 bg-primary">
