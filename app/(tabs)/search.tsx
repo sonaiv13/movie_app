@@ -1,19 +1,20 @@
-import {ActivityIndicator, FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, FlatList, Image, Text, View} from 'react-native';
 import {images} from "@/constants/images";
 import MovieCard from "@/components/MovieCard";
-import {useRouter} from "expo-router";
 import useFetch from "@/services/useFetch";
 import {fetchMovies} from "@/services/api";
 import {icons} from "@/constants/icons";
 import SearchBar from "@/components/SearchBar";
+import {useState} from "react";
 
 const Search = () => {
-    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState("");
 
-    const { data: movies, loading, error } = useFetch(
-        () => fetchMovies({
-            query: ''
-        }));
+    const {
+        data: movies = [],
+        loading,
+        error
+    } = useFetch(() => fetchMovies({query: searchQuery}));
 
     return (
         <View className="flex-1 bg-primary">
@@ -40,7 +41,11 @@ const Search = () => {
                         </View>
 
                         <View className="my-5">
-                            <SearchBar placeholder="Search movies..."/>
+                            <SearchBar
+                                placeholder="Search movies..."
+                                value={searchQuery}
+                                onChangeText={(text: string) => setSearchQuery(text)}
+                            />
                         </View>
 
                         {loading && (
@@ -51,10 +56,10 @@ const Search = () => {
                             <Text className="text-red-500 px-5 my-3">Error: {error.message}</Text>
                         )}
 
-                        {!loading && !error && 'SEARCH TERM'.trim() && movies?.length > 0 && (
+                        {!loading && !error && searchQuery.trim() && movies?.length > 0 && (
                             <Text className="text-xl text-white font-bold">
-                                Results for{' '}
-                                <Text className="text-accent">SEARCH TERM</Text>
+                                Search Results for{" "}
+                                <Text className="text-accent">{searchQuery}</Text>
                             </Text>
                         )}
                     </>
