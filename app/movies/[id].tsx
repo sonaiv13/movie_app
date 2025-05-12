@@ -35,7 +35,7 @@ const MovieDetails = () => {
                     />
                 </View>
 
-                <View className="flex-col items-start justify-center mt-5 px-5">
+                <View className="flex-col items-start justify-center mt-5 mb-10 px-5">
                     <Text className="text-white font-bold text-xl">{movie?.title}</Text>
                     <View className="flex-row items-center gap-x-1 mt-2">
                         <Text className="text-light-200 text-sm">{movie?.release_date?.split('-')[0]}</Text>
