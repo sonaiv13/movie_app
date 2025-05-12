@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import React from 'react';
 import {Tabs} from "expo-router";
 import {ImageBackground} from "react-native";
@@ -41,7 +41,7 @@ const _layout = () => {
                     backgroundColor: '#0f0D23',
                     borderRadius: 50,
                     marginHorizontal: 20,
-                    marginBottom: 36,
+                    marginBottom: 60,
                     height: 52,
                     position: 'absolute',
                     overflow: 'hidden',
@@ -111,4 +111,3 @@ const _layout = () => {
 }
 
 export default _layout;
-const styles = StyleSheet.create({});
