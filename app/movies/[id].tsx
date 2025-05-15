@@ -96,11 +96,14 @@ const MovieDetails = () => {
                         <MovieInfo label="Revenue" value={`$${((movie?.revenue ?? 0) /1_000_000).toFixed(2)} million`}/>
                     </View>
 
+                    <MovieInfo label="Tagline"
+                               value={movie?.tagline}
+                    />
+
                     <MovieInfo
                         label="Production Companies"
                         value={movie?.production_companies.map((c) => c.name).join(' - ') || 'N/A'}
                     />
-
 
                 </View>
             </ScrollView>
