@@ -86,6 +86,11 @@ const MovieDetails = () => {
                         classname="flex-row gap-x-1 items-center bg-dark-100 px-2 py-1 rounded-md gap-x1 mt-2"
                     />
 
+                    <MovieInfo
+                        label="Countries"
+                        value={movie?.production_countries.map((c) => c.name).join('  ·  ') || 'N/A'}
+                    />
+
                     <View className="flex-row justify-between w-1/2">
                         <MovieInfo label="Budget" value={`$${(movie?.budget ?? 0) /1_000_000} million`}/>
                         <MovieInfo label="Revenue" value={`$${Math.round(movie?.revenue ?? 0) / 1_000_000}`}/>
