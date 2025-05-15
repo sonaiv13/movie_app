@@ -102,7 +102,7 @@ const MovieDetails = () => {
 
                     <MovieInfo
                         label="Production Companies"
-                        value={movie?.production_companies.map((c) => c.name).join(' - ') || 'N/A'}
+                        value={movie?.production_companies.map((c) => c.name).join('  ·  ') || 'N/A'}
                     />
 
                 </View>
