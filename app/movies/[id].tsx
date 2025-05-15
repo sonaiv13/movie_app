@@ -1,4 +1,4 @@
-import {Button, Image, ScrollView, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
+import { Image, ScrollView, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {router, useLocalSearchParams} from "expo-router";
 import {fetchMovieDetails} from "@/services/api";
@@ -7,13 +7,27 @@ import {icons} from "@/constants/icons";
 
 interface MovieInfoProps {
     label: string;
-    value?: string | number | null;
+    value?: string | number | null | {name: string}[];
 }
 
-const MovieInfo = ({ label, value }: MovieInfoProps) => (
+const MovieInfo = ({ label, value, classname = '' }: MovieInfoProps & {classname?: string}) => (
     <View className="flex-col items-start justify-center mt-5">
         <Text className="text-light-200 font-normal text-sm">{label}</Text>
-        <Text className="text-light-100 font-bold text-sm mt-2">{value || 'N/A'}</Text>
+
+        {Array.isArray(value) ? (
+            <View className="flex-row flex-wrap gap-2 mt-2">
+                {value.map((genre, index) => (
+                    <Text
+                        key={index}
+                        className={`text-light-100 font-bold text-sm mt-2 ${classname}`}
+                    >
+                        {genre.name ?? genre}
+                    </Text>
+                ))}
+            </View>
+        ) : (
+            <Text className="text-light-100 font-bold text-sm mt-2">{value || 'N/A'}</Text>
+        )}
     </View>
 );
 
@@ -60,10 +74,18 @@ const MovieDetails = () => {
                     </View>
 
                     <MovieInfo label="Overview" value={movie?.overview}/>
+
+                    <View className="flex-row justify-between w-1/2">
+                        <MovieInfo label="Release Date" value={movie?.release_date}/>
+                        <MovieInfo label="Status" value={movie?.status}/>
+                    </View>
+
                     <MovieInfo
                         label="Genres"
-                        value={movie?.genres?.map((g) => g.name).join(' - ') || 'N/A'}
+                        value={movie?.genres}
+                        classname="flex-row gap-x-1 items-center bg-dark-100 px-2 py-1 rounded-md gap-x1 mt-2"
                     />
+
                     <View className="flex-row justify-between w-1/2">
                         <MovieInfo label="Budget" value={`$${(movie?.budget ?? 0) /1_000_000} million`}/>
                         <MovieInfo label="Revenue" value={`$${Math.round(movie?.revenue ?? 0) / 1_000_000}`}/>
